@@ -3,8 +3,8 @@ services:
   django_app:
     build: .
     image: django_app:1.0
-    volumes:
-      - .:/django_folder
+    # volumes:
+    #   - .:/django_folder
     ports:
       - 8000:8000
     container_name: django_container
@@ -22,4 +22,4 @@ services:
       - ./data:/var/lib/mysql
 
 volumes:
-  /data:
+  data:

@@ -2,9 +2,9 @@ version: '3.9'
 services:
   django_app:
     build: .
-    image: django_app:django
+    image: django_app:1.0
     volumes:
-      - .:/django
+      - .:/django_folder
     ports:
       - 8000:8000
     container_name: django_container
@@ -20,3 +20,6 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
     volumes:
       - ./data:/var/lib/mysql
+
+volumes:
+  ./data:

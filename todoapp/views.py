@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .models import todo
 from django.contrib.auth.decorators import login_required
+import datetime
 
 # Create your views here.
 
@@ -19,6 +20,29 @@ def home(request):
         'todos':all_todos
     }
     return render(request,'todoapp/todo.html',context)
+
+# def register(request):
+#     if request.user.is_authenticated:
+#         return redirect('home-page')
+#     if request.method=='POST':
+#         username=request.POST.get('username')
+#         email=request.POST.get('email')
+#         password=request.POST.get('password')
+
+#         if len(password)<4:
+#             messages.error(request,'password must be atleast 4 characters')
+#             return redirect('register')
+
+#         get_all_users_by_username=User.objects.filter(username=username)
+
+#         if get_all_users_by_username:
+#             messages.error(request,'username already exists, try another')
+#             return redirect('register')
+
+#         new_user=User.objects.create_user(username=username,email=email,password=password)
+#         new_user.save()
+#         messages.success(request,'user successfully created, login now!')
+#     return render(request,'todoapp/register.html',{})
 
 def register(request):
     if request.user.is_authenticated:
@@ -41,6 +65,18 @@ def register(request):
         new_user=User.objects.create_user(username=username,email=email,password=password)
         new_user.save()
         messages.success(request,'user successfully created, login now!')
+
+        m=datetime.datetime.now().minute
+        s=datetime.datetime.now().second
+
+        while True:
+            if datetime.datetime.now().second==int(s)+5 and datetime.datetime.now().minute==m:
+                # print('if',datetime.datetime.now().minute,datetime.datetime.now().second)
+                return redirect('login')
+            elif datetime.datetime.now().minute==m+1:
+                # print('elif',datetime.datetime.now().minute,datetime.datetime.now().second)
+                return redirect('login')
+
     return render(request,'todoapp/register.html',{})
 
 def logoutview(request):

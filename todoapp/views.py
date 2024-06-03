@@ -45,6 +45,7 @@ def home(request):
 #     return render(request,'todoapp/register.html',{})
 
 def register(request):
+    # context={}
     if request.user.is_authenticated:
         return redirect('home-page')
     if request.method=='POST':
@@ -72,9 +73,13 @@ def register(request):
         while True:
             if datetime.datetime.now().second==int(s)+5 and datetime.datetime.now().minute==m:
                 # print('if',datetime.datetime.now().minute,datetime.datetime.now().second)
+                # context['flag']=True
+                # print(context)
                 return redirect('login')
             elif datetime.datetime.now().minute==m+1:
                 # print('elif',datetime.datetime.now().minute,datetime.datetime.now().second)
+                # context['flag']=True
+                # print(context)
                 return redirect('login')
 
     return render(request,'todoapp/register.html',{})
@@ -84,6 +89,7 @@ def logoutview(request):
     return redirect('login')
 
 def loginpage(request):
+    # context={}
     if request.user.is_authenticated:
         return redirect('home-page')
     if request.method=='POST':
@@ -96,6 +102,7 @@ def loginpage(request):
             login(request,validate_user)
             return redirect('home-page')
         else:
+            # context['flag']=False
             messages.error(request,'wrong user details or user does not exist')
             return redirect('login')
 

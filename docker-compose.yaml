@@ -8,18 +8,26 @@ services:
     ports:
       - 8000:8000
     container_name: django_container
-    command: python manage.py runserver 0.0.0.0:8000
+    command: > 
+      "sh -c python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
-      - django_mysql
+      django_mysql:
+        condition: service_healthy
 
   django_mysql:
-    image: mysql
+    image: mysql:8.4
     container_name: django_mysql_container
     environment:
       MYSQL_DATABASE: 'django_db'
       MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
     volumes:
       - ./data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      
 
 volumes:
   data:
